@@ -18,7 +18,9 @@ namespace AcmeCorp.Application.Commands
     {
         public EnterCompetitionValidator()
         {
-
+            RuleFor(x => x.ConfirmsCorrectAge).Equal(true).WithMessage("You must be 18 to enter");
+            RuleFor(x => x.AcceptsTerms).Equal(true).WithMessage("You must accept the terms and condition to enter");
+            RuleFor(x => x.Email).EmailAddress();
         }
     }
 
