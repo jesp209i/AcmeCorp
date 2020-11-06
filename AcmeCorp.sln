@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "markdown", "markdown", "{7A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeCorp.Application", "AcmeCorp.Application\AcmeCorp.Application.csproj", "{7E9513BE-387E-4AC4-BB77-C857FDE37661}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI.Tests", "tests\WebAPI.Tests\WebAPI.Tests.csproj", "{06355185-D017-458F-9342-430A10989565}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{7E9513BE-387E-4AC4-BB77-C857FDE37661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E9513BE-387E-4AC4-BB77-C857FDE37661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E9513BE-387E-4AC4-BB77-C857FDE37661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06355185-D017-458F-9342-430A10989565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06355185-D017-458F-9342-430A10989565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06355185-D017-458F-9342-430A10989565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06355185-D017-458F-9342-430A10989565}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{977FEF0B-4BCB-4EBC-B206-9322EDFEE384} = {7407AEF5-B43E-4F9E-AD96-024A5224B493}
 		{7E9513BE-387E-4AC4-BB77-C857FDE37661} = {7407AEF5-B43E-4F9E-AD96-024A5224B493}
+		{06355185-D017-458F-9342-430A10989565} = {760F0D23-7EB0-4BA1-A6DB-717BA5C283CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69AD9CEB-42B5-4331-8656-E9785D18D7E1}
