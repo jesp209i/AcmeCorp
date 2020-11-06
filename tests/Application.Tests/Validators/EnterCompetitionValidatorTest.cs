@@ -1,9 +1,6 @@
 ﻿using AcmeCorp.Application.Commands;
 using AutoFixture;
 using FluentValidation.TestHelper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Application.Tests.Validators
@@ -17,7 +14,6 @@ namespace Application.Tests.Validators
         {
             _fixture = new Fixture();
             _validator = new EnterCompetitionValidator();
-
         }
         [Fact]
         public void CorrectAgeNotConfirmed()
@@ -27,6 +23,7 @@ namespace Application.Tests.Validators
 
             // Act
             var result = _validator.TestValidate(request);
+
             // Assert
             result.ShouldHaveValidationErrorFor(x => x.ConfirmsCorrectAge);
         }
@@ -38,21 +35,22 @@ namespace Application.Tests.Validators
 
             // Act
             var result = _validator.TestValidate(request);
+
             // Assert
             result.ShouldHaveValidationErrorFor(x => x.AcceptsTerms);
         }
         [Theory]
         [InlineData("bob bob.dk")]
-        [InlineData("test@test")]
-        [InlineData("gretchen@domain.coms")]
-        [InlineData("name@domain@damian.com")]
+        [InlineData("name@domain@damiancom")]
         public void EmailNotValid(string badEmail)
         {
             // Arrange
-            var request = _fixture.Build<EnterCompetition>().With(x => x.Email, badEmail).Create();
+            var request = _fixture.Build<EnterCompetition>()
+                .With(x => x.Email, badEmail).Create();
 
             // Act
             var result = _validator.TestValidate(request);
+
             // Assert
             result.ShouldHaveValidationErrorFor(x => x.Email);
         }
@@ -68,8 +66,9 @@ namespace Application.Tests.Validators
 
             // Act
             var result = _validator.TestValidate(request);
+
             // Assert
-            result.ShouldHaveValidationErrorFor(x => x.Email);
+            result.ShouldNotHaveAnyValidationErrors();
         }
     }
 }
