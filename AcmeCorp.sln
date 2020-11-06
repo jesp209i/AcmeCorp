@@ -3,9 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeCorp.WebApi", "src\AcmeCorp.WebApi\AcmeCorp.WebApi.csproj", "{977FEF0B-4BCB-4EBC-B206-9322EDFEE384}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AcmeCorp.WebApi", "src\AcmeCorp.WebApi\AcmeCorp.WebApi.csproj", "{977FEF0B-4BCB-4EBC-B206-9322EDFEE384}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7407AEF5-B43E-4F9E-AD96-024A5224B493}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{760F0D23-7EB0-4BA1-A6DB-717BA5C283CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{3FC7101A-D661-46C4-8252-FA8FD2806F5A}"
+	ProjectSection(SolutionItems) = preProject
+		database\docker-compose.yml = database\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "markdown", "markdown", "{7A7C5A10-4716-4DA9-BC2D-B27530858C29}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
