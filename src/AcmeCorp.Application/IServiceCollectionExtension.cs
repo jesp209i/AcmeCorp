@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using AcmeCorp.Application.Commands;
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace AcmeCorp.Application
 {
@@ -11,6 +11,7 @@ namespace AcmeCorp.Application
         public static IServiceCollection AddApplicationServiceDependencies(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient<IValidator<EnterCompetition>, EnterCompetitionValidator>();
             return services;
         }
     }

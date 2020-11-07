@@ -1,6 +1,7 @@
 using AcmeCorp.Application;
 using AcmeCorp.Infrastructure;
 using AcmeCorp.Persistance;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +22,8 @@ namespace AcmeCorp.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation();
             services.AddApplicationServiceDependencies();
             services.AddInfrastructureServiceDependencies();
             services.AddPersistanceServiceDependencies();
