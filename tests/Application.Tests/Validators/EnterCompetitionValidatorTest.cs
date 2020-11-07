@@ -1,6 +1,8 @@
 ﻿using AcmeCorp.Application.Commands;
+using AcmeCorp.Infrastructure;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Moq;
 using Xunit;
 
 namespace Application.Tests.Validators
@@ -13,7 +15,8 @@ namespace Application.Tests.Validators
         public EnterCompetitionValidatorTest()
         {
             _fixture = new Fixture();
-            _validator = new EnterCompetitionValidator();
+
+            _validator = new EnterCompetitionValidator(new Mock<IProductService>().Object);
         }
         [Fact]
         public void CorrectAgeNotConfirmed()
@@ -69,6 +72,42 @@ namespace Application.Tests.Validators
 
             // Assert
             result.ShouldNotHaveAnyValidationErrors();
+        }
+        [Fact]
+        public void EnterCompetition_ValidSerialNumber()
+        {
+            // Arrange
+            var validSerialNumber = "I Am a Serial Number";
+            var request = _fixture.Build<EnterCompetition>()
+                .With(x => x.SerialNumber, validSerialNumber)
+                .Create();
+            var productServiceMock = new Mock<IProductService>();
+            productServiceMock.Setup(x => x.IsSerialNumberValid(validSerialNumber)).Returns(true);
+            var validator = new EnterCompetitionValidator(productServiceMock.Object);
+
+            // Act
+            var result = validator.TestValidate(request);
+
+            // Assert
+            result.ShouldNotHaveValidationErrorFor(x=>x.SerialNumber);
+        }
+        [Fact]
+        public void EnterCompetition_BadSerialNumber()
+        {
+            // Arrange
+            var badSerialNumber = "I Am a Serial Number";
+            var request = _fixture.Build<EnterCompetition>()
+                .With(x => x.SerialNumber, badSerialNumber)
+                .Create();
+            var productServiceMock = new Mock<IProductService>();
+            productServiceMock.Setup(x => x.IsSerialNumberValid(badSerialNumber)).Returns(false);
+            var validator = new EnterCompetitionValidator(productServiceMock.Object);
+
+            // Act
+            var result = validator.TestValidate(request);
+
+            // Assert
+            result.ShouldHaveValidationErrorFor(x => x.SerialNumber);
         }
     }
 }
