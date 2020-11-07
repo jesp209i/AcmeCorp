@@ -1,18 +1,29 @@
 ﻿using AcmeCorp.Persistance.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AcmeCorp.Persistance
 {
     public class CompetitionRepository : ICompetitionRepository
     {
-        public Task AddContestant(Contestant contestant)
+        private readonly AcmeCorpContext _dbcontext;
+
+        public CompetitionRepository(AcmeCorpContext dbcontext)
         {
-            throw new System.NotImplementedException();
+            _dbcontext = dbcontext;
+        }
+        public async Task AddContestant(Contestant contestant)
+        {
+            _dbcontext.Contestants.Add(contestant);
+            await _dbcontext.SaveChangesAsync();
         }
 
-        public Task<bool> IsSerialNumberEligible(string serialNumber)
+        public async Task<bool> IsSerialNumberEligible(string serialNumber)
         {
-            throw new System.NotImplementedException();
+            bool usedSerialNumber = await _dbcontext.Contestants.AnyAsync(x => x.SerialNumber == serialNumber);
+            return !usedSerialNumber;
         }
     }
 }

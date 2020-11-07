@@ -26,7 +26,7 @@ namespace AcmeCorp.WebApi
                 .AddFluentValidation();
             services.AddApplicationServiceDependencies();
             services.AddInfrastructureServiceDependencies();
-            services.AddPersistanceServiceDependencies();
+            services.AddPersistanceServiceDependencies(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
