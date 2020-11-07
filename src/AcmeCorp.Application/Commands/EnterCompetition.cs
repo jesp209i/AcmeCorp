@@ -1,4 +1,5 @@
 ﻿using AcmeCorp.Infrastructure;
+using AcmeCorp.Persistance;
 using FluentValidation;
 using MediatR;
 using System;
@@ -22,16 +23,21 @@ namespace AcmeCorp.Application.Commands
     public class EnterCompetitionValidator : AbstractValidator<EnterCompetition>
     {
         private readonly IProductService _productService;
+        private readonly ICompetitionRepository _competitionRepo;
 
-        public EnterCompetitionValidator(IProductService productService)
+        public EnterCompetitionValidator(IProductService productService, ICompetitionRepository competitionRepo)
         {
             _productService = productService;
+            _competitionRepo = competitionRepo;
             RuleFor(x => x.ConfirmsCorrectAge).Equal(true).WithMessage("You must be 18 to enter.");
             RuleFor(x => x.AcceptsTerms).Equal(true).WithMessage("You must accept the terms and condition to enter.");
             RuleFor(x => x.Email).EmailAddress().WithMessage("You must provide a valid email address, for us to contact you in the case you win the draw.");
             RuleFor(x => x.SerialNumber)
                 .Must(_productService.IsSerialNumberValid).WithMessage("You must provide a valid serial number to enter competition.")
-                .Must(x=> false).WithMessage("Has Been Claimed.");
+                .MustAsync(async (x, _) => { 
+                    bool eligibleSerialNumber = await _competitionRepo.IsSerialNumberEligible(x); 
+                    return eligibleSerialNumber; 
+                }).WithMessage("Serial number is no longer eligiable to enter draw.");
         }
     }
     public class EnterCompetitionHandler : IRequestHandler<EnterCompetition, EnterCompetitionResponse>

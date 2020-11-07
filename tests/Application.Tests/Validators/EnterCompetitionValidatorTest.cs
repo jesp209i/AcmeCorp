@@ -1,8 +1,10 @@
 ﻿using AcmeCorp.Application.Commands;
 using AcmeCorp.Infrastructure;
+using AcmeCorp.Persistance;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Moq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Application.Tests.Validators
@@ -15,8 +17,7 @@ namespace Application.Tests.Validators
         public EnterCompetitionValidatorTest()
         {
             _fixture = new Fixture();
-
-            _validator = new EnterCompetitionValidator(new Mock<IProductService>().Object);
+            _validator = new EnterCompetitionValidator(new Mock<IProductService>().Object, new Mock<ICompetitionRepository>().Object);
         }
         [Fact]
         public void CorrectAgeNotConfirmed()
@@ -58,7 +59,7 @@ namespace Application.Tests.Validators
             result.ShouldHaveValidationErrorFor(x => x.Email);
         }
         [Fact]
-        public void EnterCompetition_NoValidationErrors()
+        public async Task NoValidationErrors()
         {
             // Arrange
             var request = _fixture.Build<EnterCompetition>()
@@ -66,15 +67,20 @@ namespace Application.Tests.Validators
                 .With(x=> x.AcceptsTerms, true)
                 .With(x => x.ConfirmsCorrectAge, true)
                 .Create();
-
+            var productServiceMock = new Mock<IProductService>();
+            productServiceMock.Setup(x => x.IsSerialNumberValid(request.SerialNumber)).Returns(true);
+            var competitionRepoMock = new Mock<ICompetitionRepository>();
+            competitionRepoMock.Setup(x => x.IsSerialNumberEligible(request.SerialNumber)).ReturnsAsync(true);
+            var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
+            
             // Act
-            var result = _validator.TestValidate(request);
+            var result = await validator.TestValidateAsync(request);
 
             // Assert
             result.ShouldNotHaveAnyValidationErrors();
         }
         [Fact]
-        public void EnterCompetition_ValidSerialNumber()
+        public void EligiableValidSerialNumber()
         {
             // Arrange
             var validSerialNumber = "I Am a Serial Number";
@@ -83,7 +89,9 @@ namespace Application.Tests.Validators
                 .Create();
             var productServiceMock = new Mock<IProductService>();
             productServiceMock.Setup(x => x.IsSerialNumberValid(validSerialNumber)).Returns(true);
-            var validator = new EnterCompetitionValidator(productServiceMock.Object);
+            var competitionRepoMock = new Mock<ICompetitionRepository>();
+            competitionRepoMock.Setup(x => x.IsSerialNumberEligible(validSerialNumber)).ReturnsAsync(true);
+            var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
 
             // Act
             var result = validator.TestValidate(request);
@@ -92,7 +100,7 @@ namespace Application.Tests.Validators
             result.ShouldNotHaveValidationErrorFor(x=>x.SerialNumber);
         }
         [Fact]
-        public void EnterCompetition_BadSerialNumber()
+        public void BadSerialNumber()
         {
             // Arrange
             var badSerialNumber = "I Am a Serial Number";
@@ -101,13 +109,34 @@ namespace Application.Tests.Validators
                 .Create();
             var productServiceMock = new Mock<IProductService>();
             productServiceMock.Setup(x => x.IsSerialNumberValid(badSerialNumber)).Returns(false);
-            var validator = new EnterCompetitionValidator(productServiceMock.Object);
+            var competitionRepoMock = new Mock<ICompetitionRepository>();
+            var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
 
             // Act
             var result = validator.TestValidate(request);
 
             // Assert
-            result.ShouldHaveValidationErrorFor(x => x.SerialNumber);
+            result.ShouldHaveValidationErrorFor(x => x.SerialNumber).WithErrorMessage("You must provide a valid serial number to enter competition.");
+        }
+        [Fact]
+        public async Task ValidSerialNumber_NotEligiable()
+        {
+            // Arrange
+            var validSerialNumber = "I Am a Serial Number";
+            var request = _fixture.Build<EnterCompetition>()
+                .With(x => x.SerialNumber, validSerialNumber)
+                .Create();
+            var productServiceMock = new Mock<IProductService>();
+            productServiceMock.Setup(x => x.IsSerialNumberValid(validSerialNumber)).Returns(true);
+            var competitionRepoMock = new Mock<ICompetitionRepository>();
+            competitionRepoMock.Setup(x => x.IsSerialNumberEligible(validSerialNumber)).ReturnsAsync(false);
+            var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
+
+            // Act
+            var result = await validator.TestValidateAsync(request);
+
+            // Assert
+            result.ShouldHaveValidationErrorFor(x => x.SerialNumber).WithErrorMessage("Serial number is no longer eligiable to enter draw.");
         }
     }
 }
