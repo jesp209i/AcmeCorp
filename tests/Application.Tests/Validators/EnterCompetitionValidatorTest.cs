@@ -1,6 +1,6 @@
 ﻿using AcmeCorp.Application.Commands;
 using AcmeCorp.Infrastructure;
-using AcmeCorp.Persistance;
+using AcmeCorp.Persistence;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Moq;
@@ -46,6 +46,7 @@ namespace Application.Tests.Validators
         [Theory]
         [InlineData("bob bob.dk")]
         [InlineData("name@domain@damiancom")]
+        [InlineData("")]
         public void EmailNotValid(string badEmail)
         {
             // Arrange

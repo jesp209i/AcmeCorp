@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 
-namespace AcmeCorp.Persistance
+namespace AcmeCorp.Persistence
 {
     public static class IServiceCollectionExtension
     {

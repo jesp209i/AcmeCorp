@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AcmeCorp.Persistance.Migrations
+namespace AcmeCorp.Persistence.Migrations
 {
     public partial class AcmeInitialMigration : Migration
     {

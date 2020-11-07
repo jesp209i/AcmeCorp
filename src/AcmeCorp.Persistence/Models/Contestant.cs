@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AcmeCorp.Persistance.Models
+namespace AcmeCorp.Persistence.Models
 {
     public class Contestant
     {

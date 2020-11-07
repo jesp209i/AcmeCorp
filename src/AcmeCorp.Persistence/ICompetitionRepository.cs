@@ -1,8 +1,8 @@
-﻿using AcmeCorp.Persistance.Models;
+﻿using AcmeCorp.Persistence.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace AcmeCorp.Persistance
+namespace AcmeCorp.Persistence
 {
     public interface ICompetitionRepository
     {

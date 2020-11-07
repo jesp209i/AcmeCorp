@@ -1,6 +1,6 @@
 using AcmeCorp.Application;
 using AcmeCorp.Infrastructure;
-using AcmeCorp.Persistance;
+using AcmeCorp.Persistence;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

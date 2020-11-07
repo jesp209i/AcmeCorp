@@ -1,10 +1,10 @@
-﻿using AcmeCorp.Persistance.Models;
+﻿using AcmeCorp.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AcmeCorp.Persistance
+namespace AcmeCorp.Persistence
 {
     public class AcmeCorpContext : DbContext
     {
