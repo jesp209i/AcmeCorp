@@ -15,4 +15,8 @@
     <Folder Include="Queries\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AcmeCorp.Infrastructure\AcmeCorp.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
