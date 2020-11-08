@@ -12,12 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\AcmeCorp.Infrastructure\AcmeCorp.Infrastructure.csproj" />
-    <ProjectReference Include="..\AcmeCorp.Persistence\AcmeCorp.Persistence.csproj" />
+    <ProjectReference Include="..\AcmeCorp.Persistence\AcmeCorp.Persistance.csproj" />
   </ItemGroup>
 
 </Project>

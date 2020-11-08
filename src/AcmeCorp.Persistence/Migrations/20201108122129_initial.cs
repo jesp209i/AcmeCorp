@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AcmeCorp.Persistence.Migrations
+namespace AcmeCorp.Persistance.Migrations
 {
-    public partial class AcmeInitialMigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +18,8 @@ namespace AcmeCorp.Persistence.Migrations
                     Email = table.Column<string>(nullable: true),
                     SerialNumber = table.Column<string>(nullable: true),
                     ConfirmedAgeRequirement = table.Column<bool>(nullable: false),
-                    AcceptedTerms = table.Column<bool>(nullable: false)
+                    AcceptedTerms = table.Column<bool>(nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>
                 {

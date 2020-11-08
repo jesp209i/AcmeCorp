@@ -13,5 +13,17 @@ namespace AcmeCorp.Persistence.Models
         public string SerialNumber { get; set; }
         public bool ConfirmedAgeRequirement { get; set; }
         public bool AcceptedTerms { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public static Contestant Create(string firstname, string lastName, string email, string serialNumber, bool confirmedAgeRequirement, bool acceptedTerms)
+        => new Contestant
+        {
+            FirstName = firstname,
+            LastName = lastName,
+            Email = email,
+            SerialNumber = serialNumber,
+            ConfirmedAgeRequirement = confirmedAgeRequirement,
+            AcceptedTerms = acceptedTerms,
+            CreatedAt = DateTimeOffset.UtcNow
+        };
     }
 }
