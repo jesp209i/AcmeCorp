@@ -20,6 +20,11 @@ namespace AcmeCorp.Persistence
             await _dbcontext.SaveChangesAsync();
         }
 
+        public Task<List<Contestant>> GetSubmissionsPage(int page)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<bool> IsSerialNumberEligible(string serialNumber)
         {
             bool usedSerialNumber = await _dbcontext.Contestants.AnyAsync(x => x.SerialNumber == serialNumber);

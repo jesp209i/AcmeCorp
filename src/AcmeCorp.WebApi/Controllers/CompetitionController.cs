@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AcmeCorp.Application.Commands;
 using AcmeCorp.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeCorp.WebApi.Controllers
@@ -21,6 +22,12 @@ namespace AcmeCorp.WebApi.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> EnterCompetition(EnterCompetition request)
+        {
+            return Ok(await _mediator.Send(request));
+        }
+        [Authorize]
+        [HttpGet("submissions")]
+        public async Task<IActionResult> GetSubmissions(GetSubmissions request)
         {
             return Ok(await _mediator.Send(request));
         }
