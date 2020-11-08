@@ -5,6 +5,7 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -26,7 +27,8 @@ namespace Application.Tests.Handlers
         public async Task GetSubmissions()
         {
             // Arrange
-            var responses = _fixture.CreateMany<Contestant>(10).ToList();
+            var responses = _fixture.CreateMany<Contestant>(13).ToList();
+            var expectedResponses = responses.Select(x => ContestantVM.Create(x));
             var request = new GetSubmissions { Page = 1 };
             _repoMock.Setup(x => x.GetSubmissionsPage(request.Page)).ReturnsAsync(responses);
             var handler = new GetSubmissionsHandler(_repoMock.Object);
@@ -35,7 +37,7 @@ namespace Application.Tests.Handlers
             var response = await handler.Handle(request);
 
             // Assert
-            response.Submissions.Should().BeEquivalentTo(responses);
+            response.Submissions.Should().BeEquivalentTo(expectedResponses);
         }
         [Fact]
         public async Task GetSubmissions_CallsDependencyWithCorrectParameter()

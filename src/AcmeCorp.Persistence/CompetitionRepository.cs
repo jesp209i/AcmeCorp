@@ -1,5 +1,6 @@
 ﻿using AcmeCorp.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,10 +20,13 @@ namespace AcmeCorp.Persistence
             _dbcontext.Contestants.Add(contestant);
             await _dbcontext.SaveChangesAsync();
         }
-
-        public Task<List<Contestant>> GetSubmissionsPage(int page)
+        // return 10 results per page
+        public async Task<List<Contestant>> GetSubmissionsPage(int page)
         {
-            throw new System.NotImplementedException();
+            int maxResultsPrPage = 10;
+            int realPage = page - 1;
+            var result = await _dbcontext.Contestants.OrderByDescending(x => x.CreatedAt).Skip(realPage * maxResultsPrPage).Take(maxResultsPrPage).ToListAsync();
+            return result;
         }
 
         public async Task<bool> IsSerialNumberEligible(string serialNumber)
