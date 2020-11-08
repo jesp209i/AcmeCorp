@@ -29,8 +29,7 @@ namespace WebAPI.Tests
             // Arrange
             var expectedStatusCode = (int)HttpStatusCode.OK;
             var request = _fixture.Create<EnterCompetition>();
-            var fakeResponse = _fixture.Create<EnterCompetitionResponse>();
-            _mediatorMock.Setup(x => x.Send(request, default)).ReturnsAsync(fakeResponse);
+            _mediatorMock.Setup(x => x.Send(request, default)).ReturnsAsync(new Unit());
             var controller = new CompetitionController(_mediatorMock.Object);
             
             // Act
@@ -47,8 +46,8 @@ namespace WebAPI.Tests
             var request = _fixture.Create<EnterCompetition>();
             EnterCompetition actual = null;
             _mediatorMock.Setup(x => x.Send(request, default))
-                .Callback((IRequest<EnterCompetitionResponse> req, CancellationToken token) => actual = req as EnterCompetition)
-                .ReturnsAsync(It.IsAny<EnterCompetitionResponse>);
+                .Callback((IRequest<Unit> req, CancellationToken token) => actual = req as EnterCompetition)
+                .ReturnsAsync(new Unit());
             var controller = new CompetitionController(_mediatorMock.Object);
 
             // Act
