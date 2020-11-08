@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+using AcmeCorp.Infrastructure.Interfaces;
 
 namespace AcmeCorp.Infrastructure
 {
@@ -10,6 +8,7 @@ namespace AcmeCorp.Infrastructure
         public static IServiceCollection AddInfrastructureServiceDependencies(this IServiceCollection services)
         {
             services.AddTransient<IProductService, ProductService>();
+            services.AddSingleton<IProductFetcher, ProductFetcher>();
             return services;
         }
     }
