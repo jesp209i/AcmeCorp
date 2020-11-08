@@ -1,5 +1,5 @@
 ﻿using AcmeCorp.Application.Commands;
-using AcmeCorp.Infrastructure;
+using AcmeCorp.Infrastructure.Interfaces;
 using AcmeCorp.Persistence;
 using AutoFixture;
 using FluentValidation.TestHelper;
@@ -69,7 +69,7 @@ namespace Application.Tests.Validators
                 .With(x => x.ConfirmsCorrectAge, true)
                 .Create();
             var productServiceMock = new Mock<IProductService>();
-            productServiceMock.Setup(x => x.IsSerialNumberValid(request.SerialNumber)).Returns(true);
+            productServiceMock.Setup(x => x.IsSerialNumberValid(request.SerialNumber)).ReturnsAsync(true);
             var competitionRepoMock = new Mock<ICompetitionRepository>();
             competitionRepoMock.Setup(x => x.IsSerialNumberEligible(request.SerialNumber)).ReturnsAsync(true);
             var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
@@ -89,7 +89,7 @@ namespace Application.Tests.Validators
                 .With(x => x.SerialNumber, validSerialNumber)
                 .Create();
             var productServiceMock = new Mock<IProductService>();
-            productServiceMock.Setup(x => x.IsSerialNumberValid(validSerialNumber)).Returns(true);
+            productServiceMock.Setup(x => x.IsSerialNumberValid(validSerialNumber)).ReturnsAsync(true);
             var competitionRepoMock = new Mock<ICompetitionRepository>();
             competitionRepoMock.Setup(x => x.IsSerialNumberEligible(validSerialNumber)).ReturnsAsync(true);
             var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
@@ -109,7 +109,7 @@ namespace Application.Tests.Validators
                 .With(x => x.SerialNumber, badSerialNumber)
                 .Create();
             var productServiceMock = new Mock<IProductService>();
-            productServiceMock.Setup(x => x.IsSerialNumberValid(badSerialNumber)).Returns(false);
+            productServiceMock.Setup(x => x.IsSerialNumberValid(badSerialNumber)).ReturnsAsync(false);
             var competitionRepoMock = new Mock<ICompetitionRepository>();
             var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
 
@@ -128,7 +128,7 @@ namespace Application.Tests.Validators
                 .With(x => x.SerialNumber, validSerialNumber)
                 .Create();
             var productServiceMock = new Mock<IProductService>();
-            productServiceMock.Setup(x => x.IsSerialNumberValid(validSerialNumber)).Returns(true);
+            productServiceMock.Setup(x => x.IsSerialNumberValid(validSerialNumber)).ReturnsAsync(true);
             var competitionRepoMock = new Mock<ICompetitionRepository>();
             competitionRepoMock.Setup(x => x.IsSerialNumberEligible(validSerialNumber)).ReturnsAsync(false);
             var validator = new EnterCompetitionValidator(productServiceMock.Object, competitionRepoMock.Object);
