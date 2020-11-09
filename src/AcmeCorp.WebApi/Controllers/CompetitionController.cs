@@ -25,7 +25,7 @@ namespace AcmeCorp.WebApi.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
-        //[Authorize]
+        [Authorize]
         // Todo: Implement authorization for this endpoint
         [HttpGet("submissions")]
         public async Task<IActionResult> GetSubmissions([FromQuery]GetSubmissions request)
@@ -34,12 +34,13 @@ namespace AcmeCorp.WebApi.Controllers
             if (response.Submissions.Count == 0) return NotFound();
             return Ok(response);
         }
-        //[Authorize]
+        [Authorize]
         // Todo: Authorization
         // Should not be open - but provides an easy way to se the serial numbers
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts()
         {
+            //return Ok(this.User);
             return Ok(await _mediator.Send(new GetProducts()));
         }
     }

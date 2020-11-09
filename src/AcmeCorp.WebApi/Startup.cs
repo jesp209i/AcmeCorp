@@ -24,7 +24,6 @@ namespace AcmeCorp.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSpaStaticFiles(options => options.RootPath = "wwwroot");
             services.AddCors(options => {
                 options.AddPolicy("VueCorsPolicy", builder => 
                 builder
@@ -38,14 +37,15 @@ namespace AcmeCorp.WebApi
             services.AddPersistanceServiceDependencies(Configuration);
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
-                options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
-                options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddOktaWebApi(new OktaWebApiOptions() { 
-                OktaDomain = Configuration["Okta:OktaDomain"],
+            }).AddJwtBearer(options => 
+            {
+                options.Authority = Configuration["Okta:Authority"];
+                options.Audience = "api://default";
+                options.RequireHttpsMetadata = false;
             });
-            services.AddAuthorization();
+            
             services.AddControllers()
                 .AddFluentValidation();
         }
@@ -57,25 +57,15 @@ namespace AcmeCorp.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("VueCorsPolicy");
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
+            app.UseCors("VueCorsPolicy");
+            
             app.UseAuthentication();
-
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-            app.UseSpaStaticFiles();
-            app.UseSpa(configuration: builder =>
-            {
-                if (env.IsDevelopment())
-                {
-                    builder.UseProxyToSpaDevelopmentServer("http://localhost:8080");
-                }
             });
         }
     }
