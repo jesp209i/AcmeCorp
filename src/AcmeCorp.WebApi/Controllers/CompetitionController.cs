@@ -28,7 +28,7 @@ namespace AcmeCorp.WebApi.Controllers
         //[Authorize]
         // Todo: Implement authorization for this endpoint
         [HttpGet("submissions")]
-        public async Task<IActionResult> GetSubmissions(GetSubmissions request)
+        public async Task<IActionResult> GetSubmissions([FromQuery]GetSubmissions request)
         {
             var response = await _mediator.Send(request);
             if (response.Submissions.Count == 0) return NotFound();
