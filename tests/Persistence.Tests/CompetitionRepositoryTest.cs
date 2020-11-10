@@ -3,7 +3,9 @@ using AcmeCorp.Persistence.Models;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xunit;
@@ -50,6 +52,32 @@ namespace Persistence.Tests
 
             // Assert
             actual.Should().Be(expected);
+        }
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(1, 1)]
+        [InlineData(10, 1)]
+        [InlineData(20, 2)]
+        [InlineData(21, 3)]
+        [InlineData(29, 3)]
+        [InlineData(30, 3)]
+        [InlineData(31, 4)]
+        public async Task GetMaxPage_CorrectPage(int numberOfEntries, int expectedMaxPage)
+        {
+            // Arrange
+            var _options = new DbContextOptionsBuilder<AcmeCorpContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+            AcmeCorpContext DbContext = new AcmeCorpContext(_options);
+            _fixture.Customize<Contestant>(c => c.Without(c => c.Id));
+            var contestants = _fixture.CreateMany<Contestant>(numberOfEntries);
+            DbContext.Contestants.AddRange(contestants);
+            await DbContext.SaveChangesAsync();
+            
+            var competitionRepository = new CompetitionRepository(DbContext);
+            // Act
+            var actual = await competitionRepository.MaxPageCount();
+            // Assert
+            actual.Should().Be(expectedMaxPage);
         }
     }
 }

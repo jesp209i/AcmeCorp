@@ -1,5 +1,6 @@
 ﻿using AcmeCorp.Persistence.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AcmeCorp.Persistence
@@ -8,5 +9,7 @@ namespace AcmeCorp.Persistence
     {
         Task<bool> IsSerialNumberEligible(string serialNumber);
         Task AddContestant(Contestant contestant);
+        Task<List<Contestant>> GetSubmissionsPage(int page);
+        Task<int> MaxPageCount();
     }
 }

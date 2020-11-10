@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AcmeCorp.Application.Commands;
 using AcmeCorp.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcmeCorp.WebApi.Controllers
@@ -24,10 +25,27 @@ namespace AcmeCorp.WebApi.Controllers
         {
             return Ok(await _mediator.Send(request));
         }
+        [Authorize]
+        // Todo: Implement authorization for this endpoint
+        [HttpGet("submissions")]
+        public async Task<IActionResult> GetSubmissions([FromQuery]GetSubmissions request)
+        {
+            var response = await _mediator.Send(request);
+            return Ok(response);
+        }
+        [Authorize]
+        // Todo: Authorization
+        // Should not be open - but provides an easy way to se the serial numbers
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts()
         {
             return Ok(await _mediator.Send(new GetProducts()));
+        }
+        [Authorize]
+        [HttpPost("generate")]
+        public async Task<IActionResult> GenerateContestants(GenerateContestants request)
+        {
+            return Ok(await _mediator.Send(request));
         }
     }
 }
