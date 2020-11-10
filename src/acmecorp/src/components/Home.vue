@@ -12,49 +12,23 @@
 
 <template>
   <div id="home">
-    <h1 class="ui header">PKCE Flow w/ Okta Hosted Login Page</h1>
+    <h1 class="ui header">Welcome to Acme Corp</h1>
     <div v-if="!this.$parent.authenticated">
-      <p>If you‘re viewing this page then you have successfully started this Vue application.</p>
-      <p>This example shows you how to use the
-        <a href="https://github.com/okta/okta-oidc-js/tree/master/packages/okta-vue">Okta Vue Library</a> to add the
-        <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a> to your application.</p>
-      <p>When you click the login button below, you will be redirected to the login page on your Okta org. After you authenticate,
-        you will be returned to this application with an ID token and access token. These tokens will be stored in local storage
-        and can be retrieved at a later time.</p>
-      <button
-        id="login-button"
-        class="ui primary button"
-        role="button"
-        v-on:click="login()"
-      >
-      Login
-      </button>
+      <p><router-link to="/competition">You can enter the competition by following link</router-link>.</p>
+      <p></p>
+      
     </div>
 
     <div v-if="this.$parent.authenticated">
       <p>Welcome back, {{claims && claims.name}}!</p>
       <p>
-        You have successfully authenticated against your Okta org, and have been redirected back to this application.  You now have an ID token and access token in local storage.
-        Visit the <a href="/profile">My Profile</a> page to take a look inside the ID token.
+        You can se entries to the competition and all valid serial numbers by clicking on the the relevant link in the top or just below:
       </p>
-      <h3>Next Steps</h3>
-      <p>
-        Currently this application is a stand-alone front end application.
-        At this point you can use the access token to authenticate yourself against resource servers that you control.
-      </p>
-      <p>
-        This sample is designed to work with one of our resource server examples.
-        To see access token authentication in action, please download one of these resource server examples:
-      </p>
-      <ul>
-        <li
-          v-for="(example, index) in resourceServerExamples"
-          :key="index"
-        >
-          <a :href="example.url">{{example.label}}</a>
-        </li>
+      <ul class="ui list">
+        <li class="ui list-item"><router-link to="/entries">Entries</router-link></li>
+        <li class="ui list-item"><router-link to="/products">Products</router-link></li>
       </ul>
-      <p>Once you have downloaded and started the example resource server, you can visit the <a href="/messages">My Messages</a> page to see the authentication process in action.</p>
+      <!--<pre>{{claims}}</pre>-->
     </div>
   </div>
 </template>
@@ -65,16 +39,6 @@ export default {
   data: function () {
     return {
       claims: '',
-      resourceServerExamples: [
-        {
-          label: 'Node/Express Resource Server Example',
-          url: 'https://github.com/okta/samples-nodejs-express-4/tree/master/resource-server'
-        },
-        {
-          label: 'Java/Spring MVC Resource Server Example',
-          url: 'https://github.com/okta/samples-java-spring-mvc/tree/master/resource-server'
-        }
-      ],
       token : ''
     }
   },

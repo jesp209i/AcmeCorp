@@ -12,7 +12,7 @@
 
 <template>
   <div id="app">
-    <div class="ui inverted top fixed menu">
+    <div class="ui top menu">
       <div class="ui container">
         <router-link
           to="/"
@@ -20,10 +20,8 @@
         >
           <img
             class="ui mini image"
-            src="./assets/logo.png"
+            src="./assets/logo.png" title="Acme Corp"
           >
-          &nbsp;
-          Acme Corp
         </router-link>
         <router-link
           to="/competition"
@@ -64,7 +62,7 @@
         >
           <i
             aria-hidden="true"
-            class="mail outline icon">
+            class="barcode icon">
           </i>
           Products
         </router-link>
@@ -79,10 +77,7 @@
         </router-link>
       </div>
     </div>
-    <div
-      class="ui text container"
-      style="margin-top: 7em;"
-    >
+    <div class="ui container" >
       <router-view/>
     </div>
   </div>
