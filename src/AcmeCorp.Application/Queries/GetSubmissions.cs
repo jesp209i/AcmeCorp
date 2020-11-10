@@ -33,9 +33,9 @@ namespace AcmeCorp.Application.Queries
         
         public async Task<GetSubmissionsResponse> Handle(GetSubmissions request, CancellationToken cancellationToken = default)
         {
-
-            var response = new GetSubmissionsResponse(request.Page);
+            int maxPage = await _competitionRepository.MaxPageCount();
             var contestants = await _competitionRepository.GetSubmissionsPage(request.Page);
+            var response = new GetSubmissionsResponse(request.Page, maxPage);
             response.Submissions = contestants.Select(x => ContestantVM.Create(x)).ToList();
             return response;
         }
@@ -43,10 +43,12 @@ namespace AcmeCorp.Application.Queries
     public class GetSubmissionsResponse
     {
         public int Page { get; set; }
+        public int MaxPage { get; set; }
         public List<ContestantVM> Submissions { get; set; } = new List<ContestantVM>();
-        public GetSubmissionsResponse(int page)
+        public GetSubmissionsResponse(int page, int maxPage)
         {
             Page = page;
+            MaxPage = maxPage;
         }
     }
     public class ContestantVM

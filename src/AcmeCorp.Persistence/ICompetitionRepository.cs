@@ -10,5 +10,6 @@ namespace AcmeCorp.Persistence
         Task<bool> IsSerialNumberEligible(string serialNumber);
         Task AddContestant(Contestant contestant);
         Task<List<Contestant>> GetSubmissionsPage(int page);
+        Task<int> MaxPageCount();
     }
 }

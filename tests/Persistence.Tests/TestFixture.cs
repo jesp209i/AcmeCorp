@@ -10,16 +10,17 @@ namespace Persistence.Tests
     public class TestFixture : IDisposable
     {
         public AcmeCorpContext DbContext { get; set; }
-
+        public readonly DbContextOptions<AcmeCorpContext> _options;
         public TestFixture()
         {
-            var options = new DbContextOptionsBuilder<AcmeCorpContext>()
+            _options = new DbContextOptionsBuilder<AcmeCorpContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
-            DbContext = new AcmeCorpContext(options);
+            DbContext = new AcmeCorpContext(_options);
         }
         public void Dispose()
         {
             DbContext.Dispose();
+            DbContext = new AcmeCorpContext(_options);
         }
     }
 }

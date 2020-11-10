@@ -40,7 +40,6 @@ namespace AcmeCorp.WebApi.Controllers
         [HttpGet("products")]
         public async Task<IActionResult> GetProducts()
         {
-            //return Ok(this.User);
             return Ok(await _mediator.Send(new GetProducts()));
         }
     }

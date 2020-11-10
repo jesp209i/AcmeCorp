@@ -64,7 +64,7 @@ namespace WebAPI.Tests
             // Arrange
             var expectedStatusCode = (int)HttpStatusCode.NotFound;
             var request = new GetSubmissions { Page = 1 };
-            var mediatorResponse = new GetSubmissionsResponse(request.Page);
+            var mediatorResponse = new GetSubmissionsResponse(request.Page,1);
             _mediatorMock.Setup(x => x.Send(request, default)).ReturnsAsync(mediatorResponse);
             var controller = new CompetitionController(_mediatorMock.Object);
 
@@ -82,7 +82,7 @@ namespace WebAPI.Tests
             var expectedStatusCode = (int)HttpStatusCode.OK;
             var request = new GetSubmissions { Page = 1 };
             var submissions = _fixture.CreateMany<ContestantVM>(3).ToList();
-            var mediatorResponse = new GetSubmissionsResponse(request.Page) { Submissions = submissions};
+            var mediatorResponse = new GetSubmissionsResponse(request.Page,1) { Submissions = submissions};
             _mediatorMock.Setup(x => x.Send(request, default)).ReturnsAsync(mediatorResponse);
             var controller = new CompetitionController(_mediatorMock.Object);
 

@@ -1,6 +1,7 @@
 ﻿using AcmeCorp.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace AcmeCorp.Persistence
         {
             int maxResultsPrPage = 10;
             int realPage = page - 1;
-            var result = await _dbcontext.Contestants.OrderByDescending(x => x.CreatedAt).Skip(realPage * maxResultsPrPage).Take(maxResultsPrPage).ToListAsync();
+            var result = await _dbcontext.Contestants.OrderBy(x => x.CreatedAt).Skip(realPage * maxResultsPrPage).Take(maxResultsPrPage).ToListAsync();
             return result;
         }
 
@@ -33,6 +34,14 @@ namespace AcmeCorp.Persistence
         {
             bool usedSerialNumber = await _dbcontext.Contestants.AnyAsync(x => x.SerialNumber == serialNumber);
             return !usedSerialNumber;
+        }
+
+        public async Task<int> MaxPageCount()
+        {
+            var entries = await _dbcontext.Contestants.CountAsync();
+            int m = entries / 10;
+            if (entries % 10 > 0) { m++; }
+            return m;
         }
     }
 }
