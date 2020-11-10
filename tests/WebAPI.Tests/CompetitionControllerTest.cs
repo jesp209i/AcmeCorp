@@ -59,10 +59,10 @@ namespace WebAPI.Tests
             actual.Should().Be(request);
         }
         [Fact]
-        public async Task GetSubmissions_HasNoSubmissions_Produces404()
+        public async Task GetSubmissions_HasNoSubmissions_Produces200()
         {
             // Arrange
-            var expectedStatusCode = (int)HttpStatusCode.NotFound;
+            var expectedStatusCode = (int)HttpStatusCode.OK;
             var request = new GetSubmissions { Page = 1 };
             var mediatorResponse = new GetSubmissionsResponse(request.Page,1);
             _mediatorMock.Setup(x => x.Send(request, default)).ReturnsAsync(mediatorResponse);
@@ -70,7 +70,7 @@ namespace WebAPI.Tests
 
             // Act
             var response = await controller.GetSubmissions(request);
-            var actualResponse = response as NotFoundResult;
+            var actualResponse = response as OkObjectResult;
 
             // Assert
             actualResponse.StatusCode.Should().Be(expectedStatusCode);
