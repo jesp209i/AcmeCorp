@@ -45,7 +45,7 @@
         <router-link
           to="/Entries"
           class="item"
-          id="messages-button"
+          id="entries-button"
           v-if="authenticated"
         >
           <i
@@ -57,7 +57,7 @@
         <router-link
           to="/products"
           class="item"
-          id="messages-button"
+          id="products-button"
           v-if="authenticated"
         >
           <i
@@ -65,6 +65,18 @@
             class="barcode icon">
           </i>
           Products
+        </router-link>
+        <router-link
+          to="/fakes"
+          class="item"
+          id="fakes-button"
+          v-if="authenticated"
+        >
+          <i
+            aria-hidden="true"
+            class="barcode icon">
+          </i>
+          Fake Contestants
         </router-link>
         <router-link
           to="/"

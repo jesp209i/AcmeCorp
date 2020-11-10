@@ -26,7 +26,7 @@ namespace AcmeCorp.Persistence
         {
             int maxResultsPrPage = 10;
             int realPage = page - 1;
-            var result = await _dbcontext.Contestants.OrderBy(x => x.CreatedAt).Skip(realPage * maxResultsPrPage).Take(maxResultsPrPage).ToListAsync();
+            var result = await _dbcontext.Contestants.OrderBy(x => x.Id).Skip(realPage * maxResultsPrPage).Take(maxResultsPrPage).ToListAsync();
             return result;
         }
 

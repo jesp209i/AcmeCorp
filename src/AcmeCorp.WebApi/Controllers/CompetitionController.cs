@@ -31,7 +31,6 @@ namespace AcmeCorp.WebApi.Controllers
         public async Task<IActionResult> GetSubmissions([FromQuery]GetSubmissions request)
         {
             var response = await _mediator.Send(request);
-            if (response.Submissions.Count == 0) return NotFound();
             return Ok(response);
         }
         [Authorize]
@@ -41,6 +40,12 @@ namespace AcmeCorp.WebApi.Controllers
         public async Task<IActionResult> GetProducts()
         {
             return Ok(await _mediator.Send(new GetProducts()));
+        }
+        [Authorize]
+        [HttpPost("generate")]
+        public async Task<IActionResult> GenerateContestants(GenerateContestants request)
+        {
+            return Ok(await _mediator.Send(request));
         }
     }
 }

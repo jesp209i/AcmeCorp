@@ -15,6 +15,6 @@ export default {
     competitionUrl: 'https://localhost:5001/api/competition',
     submissionsUrl: 'https://localhost:5001/api/competition/submissions?page=',
     productsUrl: 'https://localhost:5001/api/competition/products',
-
+    generateUrl: 'https://localhost:5001/api/competition/generate',
   }
 }

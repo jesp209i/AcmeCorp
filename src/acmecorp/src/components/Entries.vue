@@ -28,7 +28,14 @@
         <div class="header">Failed to fetch entries.</div>
       </div>
     </div>
-
+    <div
+      v-if="noEntries"
+      class="ui warning message"
+    >
+      <div class="content">
+        <div class="header">Succesfully fetched entries, but there are none.</div>
+      </div>
+    </div>
     <div v-if="submissions.length">
       <div class="ui pagination menu">
         <div v-for="i in maxPage" v-bind:key="i" :class="['item', 'clickable',{'active': i === currentPage }]" v-on:click="fetchEntries(i)">{{i}}</div>
@@ -91,11 +98,13 @@ export default {
       submissions: [],
       currentPage : 1,
       maxPage : 1,
-      loading : false
+      loading : false,
+      noEntries : false
     }
   },
   methods: {
     async fetchEntries(page){
+      this.noEntries = false
       this.loading = true
       try {
       const accessToken = await this.$auth.getAccessToken()
@@ -111,6 +120,9 @@ export default {
       this.submissions = response.data.submissions
       this.maxPage = response.data.maxPage
       this.loading = false
+      if (this.submissions.length == 0){
+        this.noEntries = true
+      }
       } catch (e) {
         console.error(e)
         this.failed = true

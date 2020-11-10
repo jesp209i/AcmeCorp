@@ -20,6 +20,7 @@ import HomeComponent from '@/components/Home'
 import EntryComponent from '@/components/Entries'
 import CompetitionComponent from '@/components/Competition'
 import ProductsComponent from '@/components/Products'
+import FakeContestantsComponent from '@/components/FakeContestants'
 
 import sampleConfig from '@/config'
 
@@ -51,6 +52,13 @@ const router = new Router({
     {
       path: '/products',
       component: ProductsComponent,
+      meta: {
+        requiresAuth: true
+        }
+    },
+    {
+      path: '/fakes',
+      component: FakeContestantsComponent,
       meta: {
         requiresAuth: true
         }
