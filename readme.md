@@ -34,7 +34,7 @@ If you do NOT want to do this, you can use this fake user:
 
 ## Entering the competition
 You can start submitting entries on the [competition-page](http://localhost:8080/competition) but you will need product Serial Number.
-To get a valid on, you need to log in.
+To get a valid one, you need to log in.
 
 ## When logged in
 Navigate to the [Products-page](http://localhost:8080/products) to se all the serial numbers. Each number can only be used once.
