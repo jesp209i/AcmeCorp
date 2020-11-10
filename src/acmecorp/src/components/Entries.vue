@@ -25,18 +25,15 @@
       class="ui error message"
     >
       <div class="content">
-        <div class="header">Failed to fetch messages. Please verify the following:</div>
-        <ul class="list">
-          <li class="content">You've downloaded one of our resource server examples, and it's running on port 8000.</li>
-          <li class="content">Your resource server example is using the same Okta authorization server (issuer) that you have configured this Vue
-            application to use.</li>
-        </ul>
+        <div class="header">Failed to fetch entries.</div>
       </div>
     </div>
 
     <div v-if="submissions.length">
-        <p>Page {{page}}</p>
-      <table class="ui table">
+      <div class="ui pagination menu">
+        <div v-for="i in maxPage" v-bind:key="i" :class="['item', 'clickable',{'active': i === currentPage }]" v-on:click="fetchEntries(i)">{{i}}</div>
+      </div>
+      <table class="ui table" v-if="!loading">
         <thead>
           <tr>
             <th>Id</th>
@@ -57,16 +54,27 @@
             :id="'submission-' + submission.id"
           >
             <td>{{submission.id}}</td>
-            <td>{{submission.createdAt}}</td>
+            <td>{{prettyDate(submission.createdAt)}}</td>
             <td>{{submission.firstName}}</td>
             <td>{{submission.lastName}}</td>
             <td>{{submission.email}}</td>
             <td>{{submission.serialNumber}}</td>
-            <td>{{submission.confirmedAgeRequirement}}</td>
-            <td>{{submission.acceptedTerms}}</td>
+            <td><i class="check icon"></i></td>
+            <td><i class="check icon"></i></td>
           </tr>
         </tbody>
       </table>
+      <div class="ui fluid placeholder" v-if="loading">
+  <div class="image header">
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+  <div class="paragraph">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+</div>
     </div>
   </div>
 </template>
@@ -81,29 +89,50 @@ export default {
     return {
       failed: false,
       submissions: [],
-      page : 0
+      currentPage : 1,
+      maxPage : 1,
+      loading : false
     }
   },
-  async created () {
-    try {
+  methods: {
+    async fetchEntries(page){
+      this.loading = true
+      try {
       const accessToken = await this.$auth.getAccessToken()
-      console.log(accessToken)
       const response = await axios.get(
-        sampleConfig.resourceServer.messagesUrl+"/submissions?page=1",
+        sampleConfig.resourceServer.submissionsUrl+page,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`
           }
         }
       )
-      this.page = response.data.page
+      this.currentPage = response.data.page
       this.submissions = response.data.submissions
-
-      console.log(response)
-    } catch (e) {
-      console.error(e)
-      this.failed = true
+      this.maxPage = response.data.maxPage
+      this.loading = false
+      } catch (e) {
+        console.error(e)
+        this.failed = true
+      }
+    },
+    prettyDate(date){
+      if (date === undefined) {
+        return "";
+      }
+      const mydate = new Date(date);
+      return mydate.toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "short",
+        day: "numeric"
+      }) +' '+ mydate.toLocaleTimeString("en-GB")
     }
-  }
+  },
+  async created () {
+    await this.fetchEntries(this.currentPage)
+  },
 }
 </script>
+<style scoped>
+.clickable:hover { cursor: pointer;}
+</style>
