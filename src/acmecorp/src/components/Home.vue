@@ -14,8 +14,7 @@
   <div id="home">
     <h1 class="ui header">Welcome to Acme Corp</h1>
     <div v-if="!this.$parent.authenticated">
-      <p><router-link to="/competition">You can enter the competition by following link</router-link>.</p>
-      <p></p>
+      <p>You can enter the <router-link to="/competition">competition by following this link</router-link>.</p>
       
     </div>
 

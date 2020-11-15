@@ -1,8 +1,8 @@
 # Acme Corporation Task
-The following ports needs to be available:
+The following ports needs to be available locally:
 - 1433, 5000, 5001, 8080
 
-The following frameworks are needed:
+The following frameworks are needed to run project:
 - Docker
 - npm
 - Dotnet sdk or Visual Studio
