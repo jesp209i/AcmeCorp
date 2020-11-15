@@ -39,4 +39,46 @@ To get a valid one, you need to log in.
 ## When logged in
 Navigate to the [Products-page](http://localhost:8080/products) to se all the serial numbers. Each number can only be used once.
 
-You can generate entries, by going to the [Fake Contestants-page](http://localhost:8080/fakes). The functionality is made sp you can fill up the entries with fake data to try out the pagination on the [entries-page](http://localhost:8080/Entries). Now you don't have to poste a gazillion entries via the competition form.
+You can generate entries, by going to the [Fake Contestants-page](http://localhost:8080/fakes). The functionality is made so you can fill up the entries with fake data to try out the pagination on the [entries-page](http://localhost:8080/Entries). Now you don't have to post a gazillion entries via the competition form.
+
+## Troubleshooting
+### HTTPS-certificate
+You need to have a valid developer certificate installed, or else the requests between frontend and api will get blocked.
+If you are experiencing trouble trying to fetch entries when logged in, or that the products-page seem to keep loading, try the following:
+- close your browser
+- start a terminal
+- run the command `dotnet dev-certs https --trust` 
+- click yes, ok or accept if thre is a popup
+- start your brouser again, and head to http://localhost:8080/entries
+
+### MS SQL server
+If you have trouble starting the database server from docker because of a database server already running locally, you can change the configuration of this program.
+- go to the `database` directory
+- open the `docker-compose.yml` file
+- change line 7 to the port number you want to use
+- here it's changed from 1433 to 1499 
+
+```yml
+...
+ports:
+  - 1499:1433
+...
+```
+
+- save and try running `docker-compose up -d` again
+
+
+- shutdown the dotnet project, if it is running
+- now go to `src\AcmeCorp.WebApi`
+- open the file `appsettings.json`
+- change line 10 to reflect the port number you selected for docker
+
+```JSON
+...
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost,1499;Database=Master;User ID=sa;Password=AcmeCorp123*"
+  },
+...
+```
+
+- start up the dotnet project again: `dotnet run`
