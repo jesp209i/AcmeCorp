@@ -2,7 +2,7 @@
 The following ports needs to be available locally:
 - 1433, 5000, 5001, 8080
 
-The following frameworks are needed to run project:
+The following frameworks are needed to run the project:
 - Docker
 - npm
 - Dotnet sdk or Visual Studio
@@ -25,6 +25,7 @@ In another terminal navigate to the `src/acmecorp` folder and run `npm run serve
 
 - [Navigate to localhost:8080](http://localhost:8080)
 
+![Landing page](./img/landing.PNG)
 ## External Identity Provider
 When clicking on login you will have the oportunity to create a new user. This is done externally on the Otka service.
 
@@ -36,10 +37,20 @@ If you do NOT want to do this, you can use this fake user:
 You can start submitting entries on the [competition-page](http://localhost:8080/competition) but you will need product Serial Number.
 To get a valid one, you need to log in.
 
+![competition](./img/competition.PNG)
+
+
 ## When logged in
 Navigate to the [Products-page](http://localhost:8080/products) to se all the serial numbers. Each number can only be used once.
 
-You can generate entries, by going to the [Fake Contestants-page](http://localhost:8080/fakes). The functionality is made so you can fill up the entries with fake data to try out the pagination on the [entries-page](http://localhost:8080/Entries). Now you don't have to post a gazillion entries via the competition form.
+![products](./img/products.PNG)
+
+Navigate to the [Entries-page](http://localhost:8080/entries) to se all registered contestants. (If you havent entered any data yet, yours will be empty)
+![Entry](./img/contestants.PNG)
+
+On the [Fake-contestant-page](http://localhost:8080/fakes) I have added the posibility to quickly populate the database with an optional amount, fake and valid contestants.
+
+>This was not part of the "homework", I added it for the sake of convenience.
 
 ## Troubleshooting
 ### HTTPS-certificate
@@ -57,7 +68,7 @@ If you have trouble starting the database server (docker-compose up) because of 
 - open the `docker-compose.yml` file
 - change line 7 to the port number you want to use
 
-![docker](./dockercomposehelp.png)
+![docker](./img/dockercomposehelp.png)
 
 - save and try running `docker-compose up -d` again
 - shutdown the dotnet project, if it is running
@@ -65,6 +76,6 @@ If you have trouble starting the database server (docker-compose up) because of 
 - open the file `appsettings.json`
 - change line 10 to reflect the port number you selected for the database server in docker. It is important that you use the same number!
 
-![appsettings](./appsettingshelp.png)
+![appsettings](./img/appsettingshelp.png)
 
 - save file and start up the dotnet project again: `dotnet run`
