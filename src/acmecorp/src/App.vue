@@ -25,7 +25,7 @@
         </router-link>
         <router-link
           to="/competition"
-          class="item"
+          :class="['item', {'active': currentPage =='/competition'}]"
           id="competition-button"
           v-if="!authenticated"
         >
@@ -43,8 +43,8 @@
         Login
         </a>
         <router-link
-          to="/Entries"
-          class="item"
+          to="/entries"
+          :class="['item', {'active': currentPage =='/entries'}]"
           id="entries-button"
           v-if="authenticated"
         >
@@ -56,7 +56,7 @@
         </router-link>
         <router-link
           to="/products"
-          class="item"
+          :class="['item', {'active': currentPage =='/products'}]"
           id="products-button"
           v-if="authenticated"
         >
@@ -68,7 +68,7 @@
         </router-link>
         <router-link
           to="/fakes"
-          class="item"
+          :class="['item', {'active': currentPage =='/fakes'}]"
           id="fakes-button"
           v-if="authenticated"
         >
@@ -99,14 +99,24 @@
 export default {
   name: 'app',
   data: function () {
-    return { authenticated: false }
+    return { 
+      authenticated: false,
+      currentPage: ""
+     }
   },
-  created () { this.isAuthenticated() },
+  created () { 
+    this.isAuthenticated() 
+    },
   watch: {
     // Everytime the route changes, check for auth status
-    '$route': 'isAuthenticated'
+    '$route': 'routeChange'
   },
   methods: {
+    async routeChange(){
+      await this.isAuthenticated()
+      var path = this.$route.path
+      this.currentPage = path.toLowerCase()
+    },
     async isAuthenticated () {
       this.authenticated = await this.$auth.isAuthenticated()
     },
@@ -116,7 +126,7 @@ export default {
     async logout () {
       await this.$auth.logout()
       await this.isAuthenticated()
-    }
+    },
   }
 }
 </script>
