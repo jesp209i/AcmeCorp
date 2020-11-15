@@ -56,29 +56,15 @@ If you have trouble starting the database server (docker-compose up) because of 
 - go to the `database` directory
 - open the `docker-compose.yml` file
 - change line 7 to the port number you want to use
-- here you see what it should look like after the change to port 1499
 
-```yml
-...
-ports:
-  - 1499:1433
-...
-```
+![docker](./dockercomposehelp.png)
 
 - save and try running `docker-compose up -d` again
-
-
 - shutdown the dotnet project, if it is running
 - now go to `src\AcmeCorp.WebApi`
 - open the file `appsettings.json`
-- change line 10 to reflect the port number you selected for the database server in docker:
+- change line 10 to reflect the port number you selected for the database server in docker. It is important that you use the same number!
 
-```JSON
-...
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost,1499;Database=Master;User ID=sa;Password=AcmeCorp123*"
-  },
-...
-```
+![appsettings](./appsettingshelp.png)
 
-- start up the dotnet project again: `dotnet run`
+- save file and start up the dotnet project again: `dotnet run`
