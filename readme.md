@@ -48,15 +48,15 @@ If you are experiencing trouble trying to fetch entries when logged in, or that 
 - close your browser
 - start a terminal
 - run the command `dotnet dev-certs https --trust` 
-- click yes, ok or accept if thre is a popup
-- start your brouser again, and head to http://localhost:8080/entries
+- click yes, ok or accept if there is a popup
+- start your browser again, and head to http://localhost:8080/entries or http://localhost:8080/products
 
 ### MS SQL server
-If you have trouble starting the database server from docker because of a database server already running locally, you can change the configuration of this program.
+If you have trouble starting the database server (docker-compose up) because of a database server already running locally, you can change the db configuration of this program. Here is how:
 - go to the `database` directory
 - open the `docker-compose.yml` file
 - change line 7 to the port number you want to use
-- here it's changed from 1433 to 1499 
+- here you see what it should look like after the change to port 1499
 
 ```yml
 ...
@@ -71,7 +71,7 @@ ports:
 - shutdown the dotnet project, if it is running
 - now go to `src\AcmeCorp.WebApi`
 - open the file `appsettings.json`
-- change line 10 to reflect the port number you selected for docker
+- change line 10 to reflect the port number you selected for the database server in docker:
 
 ```JSON
 ...
