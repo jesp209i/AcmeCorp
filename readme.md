@@ -21,7 +21,7 @@ The following frameworks are needed to run project:
 ### Backend
 In one terminal navigate to the `src/AcmeCorp.WebApi` folder and run `dotnet run`
 ### Frontend
-In another terminal navigate to the `src/acmecorp` folder and run `npn run serve`
+In another terminal navigate to the `src/acmecorp` folder and run `npm run serve`
 
 - [Navigate to localhost:8080](http://localhost:8080)
 
